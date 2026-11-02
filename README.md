@@ -51,8 +51,9 @@ computer. It is not a ready-made executable.
   source tag `nightly-source/2026-11-01-c9d474d`), Minecraft 26.3, horizon-mixins `a2af5c0`. It hooks
   private client functions as well as stable hook points, so it does not claim a hooks-only API
   version. Other Horizon commits need a rebuild and retest.
-- **Client only.** It works in single player, as a LAN host or guest, and on servers without the mod.
-  Nothing is sent to the server, and other players see the effects only if they have the mod.
+- **Client only.** Nothing is sent to the server and nothing is needed there; other players see the effects
+  only if they have the mod. Tested so far in single player on Windows; LAN and server play use the same
+  client paths but are not tested yet.
 - Platforms: see [docs/VALIDATION.md](docs/VALIDATION.md) for what has actually been tested.
 
 ## Building from source

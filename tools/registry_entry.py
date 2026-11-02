@@ -24,7 +24,7 @@ Slime blobs: chunky blobs in three sizes when a slime lands, in a colour you cho
 Charged creeper sparks, amethyst sparkles on full clusters, armor glints on gold and diamond armor, ore glints on uncovered faces only, soul wisps over soul sand and soil and when sprinting on them, and flat rain ripples on open water.
 
 Low preset by default, for integrated GPUs; Balanced and High add density. Settings in Options > Mods > Visuality, lists in config/visuality_horizon.toml.
-Client only: works in single player, on LAN and on servers without the mod, and sends nothing to the server.
+Client only: it sends nothing to the server and needs nothing installed there. Tested in single player on Windows; LAN, servers, Linux and macOS are not tested yet (see docs/VALIDATION.md).
 Pinned to Horizon c9d474d (Nightly 2026-11-01): it hooks private client functions, so it builds on that commit only.
 Not made or endorsed by Visuality's author."""
 
@@ -42,10 +42,8 @@ def main():
     def q(s):
         return json.dumps(s, ensure_ascii=False)
 
-    repo = a.source.removeprefix("https://github.com/").strip("/")
     text = f'''id = "{m["id"]}"
 kind = "native-mod"
-repo = {q(repo)}
 name = "Visuality"
 summary = {q(SUMMARY)}
 description = """

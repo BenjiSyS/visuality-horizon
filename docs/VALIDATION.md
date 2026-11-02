@@ -26,6 +26,9 @@ Every row says what was actually run, where, and with what result. "Not run" row
 | `python tools/package.py` | two packs byte-identical, 32 entries, registry path rules satisfied |
 | Real build: `horizon-launcher native-build mixins/visuality_horizon --instance visuality-test --trust-native-code` | pass. First full build 37 min 44 s, later incremental builds 15 to 21 min, 0 warnings after the visibility fix |
 
+| Player route: the released `.hnmod` unpacked into a clean folder, then `native-build` | pass, 14 min 31 s (incremental; the launcher built horizon-mixins `a2af5c0` itself as the bundle names it) |
+| Registry checker: `cargo horizon-mod check visuality_horizon-1.0.0.hnmod` (built from the pinned source) | pass: native-1/c9d474d/a2af5c0, 70145 bytes, SHA-256 `a0fbf91a5b4d3aeb52e42fdd59a4d23d359dfe7074dbdea6a68af9dcc6bcc47b`, unsigned |
+
 ## In-game checks (natural events, single player, Windows, UHD 620)
 
 Short-lived effects were captured with `/tick rate 2` to `5`, because a screenshot takes about 0.9 s to save.
