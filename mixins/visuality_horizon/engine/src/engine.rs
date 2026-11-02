@@ -404,6 +404,14 @@ impl Engine {
         s
     }
 
+    /// Squared distance from the camera beyond which an entity can't emit
+    /// anything (the emission distance plus a body's reach), so the glue can
+    /// skip copying it at all.
+    pub fn entity_reach_sq(&self) -> f64 {
+        let d = self.config.quality.emission_distance_blocks as f64 + 3.0;
+        d * d
+    }
+
     fn near(&mut self, p: [f64; 3]) -> bool {
         let d = self.config.quality.emission_distance_blocks as f64;
         let c = self.camera;

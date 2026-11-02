@@ -1,0 +1,91 @@
+name: ci
+
+# Logic tests on three systems, and the real native check: the bundle applied
+# with horizon-mixins to the pinned Horizon commit, then the patched game
+# compiled, on Linux x86_64 and macOS arm64 runners. This proves the build
+# on those hosts, not rendering (runners have no GPU session).
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  RUST: "1.99.1"
+  HORIZON_REV: c9d474dd9116e84c243f8992d75c11314df56f06
+  MIXINS_REV: a2af5c0dd4117d51ecd70066ba7a00b4a2c10dab
+  CARGO_TERM_COLOR: never
+
+jobs:
+  logic:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, windows-2025, macos-15]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - run: rustup toolchain install ${{ env.RUST }} --profile minimal -c rustfmt,clippy && rustup default ${{ env.RUST }}
+        shell: bash
+      - run: uname -a; rustc -vV
+        shell: bash
+      - run: cargo fmt --all --check
+      - run: cargo clippy --workspace --all-targets --locked -- -D warnings
+      - run: cargo test --workspace --locked
+      - name: Same package bytes on every system
+        run: python tools/package.py && git diff --exit-code -- dist/SHA256SUMS
+        shell: bash
+
+  native-check:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, macos-15]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 150
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: mod
+      - name: Toolchain and system packages
+        shell: bash
+        run: |
+          rustup toolchain install $RUST --profile minimal && rustup default $RUST
+          if [ "$RUNNER_OS" = Linux ]; then
+            sudo apt-get update -q && sudo apt-get install -yq build-essential pkg-config libasound2-dev libudev-dev
+          fi
+          uname -m; rustc -vV
+      - name: Pinned Horizon source
+        shell: bash
+        run: |
+          git init -q horizon && cd horizon
+          git remote add origin https://github.com/horizon-rust/horizon
+          git fetch -q --depth 1 origin $HORIZON_REV && git checkout -q FETCH_HEAD
+          test "$(git rev-parse HEAD)" = "$HORIZON_REV"
+      - name: horizon-mixins at the pinned revision
+        shell: bash
+        run: |
+          cargo install -q --locked --git https://github.com/horizon-rust/horizon-mixins --rev $MIXINS_REV horizon-mixins-cli --root "$PWD/tools-bin"
+      - name: Apply the bundle (plan, then stage)
+        shell: bash
+        run: |
+          mkdir mods && cp -r mod/mixins/visuality_horizon mods/
+          ./tools-bin/bin/horizon-mixins plan --workspace horizon --mods mods --out plan.json > plan-report.json
+          ./tools-bin/bin/horizon-mixins apply --workspace horizon --mods mods --out stage > apply-report.json
+          cat apply-report.json
+      - name: Compile the patched game client
+        shell: bash
+        working-directory: stage
+        run: cargo check --locked -p horizon-client
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: native-check-${{ matrix.os }}
+          path: |
+            plan.json
+            plan-report.json
+            apply-report.json

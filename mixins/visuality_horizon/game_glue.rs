@@ -79,8 +79,14 @@ pub(super) fn tick(game: &mut super::Game<'_>) {
         let mut in_tag = |tag: &str, item: &str| items.item_in_tag(tag, item);
 
         // Other entities the client shows.
+        // Entities too far to emit anything are skipped before any copying.
+        let (cam, reach) = (info.camera, rt.engine.entity_reach_sq());
         for m in game.mobs.iter().filter(|m| !m.removed) {
             let pos = [m.position.x, m.position.y, m.position.z];
+            let d2 = (pos[0] - cam[0]).powi(2) + (pos[1] - cam[1]).powi(2) + (pos[2] - cam[2]).powi(2);
+            if d2 > reach {
+                continue;
+            }
             let sprinting = m.extra.sprinting && m.on_ground;
             let soul = sprinting && on_soul(game, rt, pos);
             let obs = EntityObs {
