@@ -1,13 +1,13 @@
 {
- "file": "visuality_horizon-1.0.0.hnmod",
- "sha256": "a0fbf91a5b4d3aeb52e42fdd59a4d23d359dfe7074dbdea6a68af9dcc6bcc47b",
- "size": 70145,
+ "file": "visuality_horizon-1.0.1.hnmod",
+ "sha256": "98723364438606ee437618a6eaf480566e454f328b57bd023636741b8c96e82f",
+ "size": 226011,
  "entries": 32,
- "unpacked_bytes": 220367,
+ "unpacked_bytes": 221011,
  "manifest": {
   "schema": 1,
   "id": "visuality_horizon",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "game": "26.3",
   "horizon": "c9d474dd9116e84c243f8992d75c11314df56f06",
   "mixins": "a2af5c0dd4117d51ecd70066ba7a00b4a2c10dab"

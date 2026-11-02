@@ -41,7 +41,7 @@ jobs:
         shell: bash
 
   release-reproducible:
-    # The released v1.0.0 file must come out byte for byte from its tagged
+    # The released v1.0.1 file must come out byte for byte from its tagged
     # sources on every system.
     strategy:
       fail-fast: false
@@ -51,12 +51,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: v1.0.0
-      - name: Rebuild visuality_horizon-1.0.0.hnmod and compare with the release
+          ref: v1.0.1
+      - name: Rebuild visuality_horizon-1.0.1.hnmod and compare with the release
         shell: bash
         run: |
           python tools/package.py
-          python -c "import hashlib;h=hashlib.sha256(open('dist/visuality_horizon-1.0.0.hnmod','rb').read()).hexdigest();print(h);assert h=='a0fbf91a5b4d3aeb52e42fdd59a4d23d359dfe7074dbdea6a68af9dcc6bcc47b'"
+          python -c "import hashlib;h=hashlib.sha256(open('dist/visuality_horizon-1.0.1.hnmod','rb').read()).hexdigest();print(h);assert h=='a0fbf91a5b4d3aeb52e42fdd59a4d23d359dfe7074dbdea6a68af9dcc6bcc47b'"
 
   native-check:
     strategy:
@@ -85,7 +85,7 @@ jobs:
           git fetch -q --depth 1 origin $HORIZON_REV && git checkout -q FETCH_HEAD
           test "$(git rev-parse HEAD)" = "$HORIZON_REV"
           # As the launcher's source archive: links are left out (horizon-mixins refuses them).
-          find . -path ./.git -prune -o -type l -print -delete
+          find . -type l -not -path './.git/*' -print -delete
       - name: horizon-mixins at the pinned revision
         shell: bash
         run: |

@@ -6,7 +6,7 @@
 # version is declared on purpose.
 [mod]
 id = "visuality_horizon"
-version = "1.0.0"
+version = "1.0.1"
 priority = 100
 
 [compatibility]

@@ -96,13 +96,15 @@ def pack(out):
         entries[name] = data
     check(entries, m)
     out.parent.mkdir(parents=True, exist_ok=True)
-    with zipfile.ZipFile(out, "w", compression=zipfile.ZIP_DEFLATED) as z:
+    # Stored, not deflated: deflate output differs between zlib builds (Python
+    # 3.14 on Windows ships another one), and the bytes must not depend on it.
+    with zipfile.ZipFile(out, "w", compression=zipfile.ZIP_STORED) as z:
         for name, content in sorted(entries.items()):
             info = zipfile.ZipInfo(name, (2026, 1, 1, 0, 0, 0))
-            info.compress_type = zipfile.ZIP_DEFLATED
+            info.compress_type = zipfile.ZIP_STORED
             info.create_system = 3
             info.external_attr = 0o100644 << 16
-            z.writestr(info, content, compresslevel=9)
+            z.writestr(info, content)
     return m, entries
 
 
