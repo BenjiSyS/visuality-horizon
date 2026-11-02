@@ -1,0 +1,5 @@
+# Development workspace. The player package is only mixins/visuality_horizon/
+# (see tools/package.py); this file is never shipped.
+[workspace]
+members = ["mixins/visuality_horizon/engine"]
+resolver = "3"

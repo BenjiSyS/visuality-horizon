@@ -1,0 +1,11 @@
+{
+  "game": "26.3",
+  "horizon_repository": "https://github.com/horizon-rust/horizon",
+  "horizon_revision": "c9d474dd9116e84c243f8992d75c11314df56f06",
+  "horizon_source_tag": "nightly-source/2026-11-01-c9d474d",
+  "horizon_mixins_repository": "https://github.com/horizon-rust/horizon-mixins",
+  "horizon_mixins_revision": "a2af5c0dd4117d51ecd70066ba7a00b4a2c10dab",
+  "mixin_schema": 6,
+  "native_hooks_api_at_pin": 80,
+  "note": "Pinned on purpose: the mod hooks private client functions (packet handler, ambient block pass, slime landing), so no hooks-only API version is declared."
+}

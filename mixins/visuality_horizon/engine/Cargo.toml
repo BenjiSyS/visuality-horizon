@@ -1,0 +1,21 @@
+[package]
+name = "visuality-horizon-engine"
+version = "1.0.0"
+edition = "2024"
+license = "MIT"
+publish = false
+description = "Visuality for Horizon: client-side cosmetic particle rules, simulation and drawing."
+
+[features]
+default = ["gpu"]
+# Drawing with wgpu. Off for fast logic-only tests (cargo test --no-default-features).
+gpu = ["dep:wgpu"]
+
+[dependencies]
+bytemuck = { version = "1.24", features = ["derive"] }
+log = "0.4"
+png = "0.18"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+toml = "1.1"
+wgpu = { version = "30.0.1", default-features = false, features = ["std", "wgsl"], optional = true }

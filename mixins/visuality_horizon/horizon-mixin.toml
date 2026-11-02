@@ -1,0 +1,161 @@
+# Visuality for Horizon: client-side cosmetic particles.
+#
+# Pinned: besides Horizon's stable hook points it hooks private client
+# functions (the packet handler, the ambient block pass, the slime landing),
+# so it builds only on the exact Horizon commit below. No hooks-only API
+# version is declared on purpose.
+[mod]
+id = "visuality_horizon"
+version = "1.0.0"
+priority = 100
+
+[compatibility]
+horizon_revision = "c9d474dd9116e84c243f8992d75c11314df56f06"
+
+# The effect engine: rules, particles, settings and the wgpu drawing. It hangs
+# off the renderer crate so the world-drawn hook can reach it; the game crate
+# reaches it through the public `visuality_horizon` module below.
+[[crate]]
+id = "engine"
+path = "engine"
+dependent = "horizon-client-render"
+
+[[module]]
+id = "render_glue"
+file = "crates/horizon-client-render/src/gfx/native_render.rs"
+name = "visuality_horizon"
+source = "render_glue.rs"
+visibility = "pub"
+
+[[module]]
+id = "game_glue"
+file = "crates/horizon-client/src/game.rs"
+name = "visuality_horizon"
+source = "game_glue.rs"
+
+# ---- stable hook points ----------------------------------------------------
+
+[[injection]]
+id = "tick"
+hook = "tick"
+hook_version = 1
+kind = "HEAD"
+helper = "tick.rs"
+bindings = [{ name = "game", ty = "&mut crate::game::Game<'_>", value = "&mut *self" }]
+
+[[injection]]
+id = "frame"
+hook = "frame"
+hook_version = 1
+kind = "HEAD"
+helper = "frame.rs"
+bindings = [{ name = "game", ty = "&mut crate::game::Game<'_>", value = "&mut *self" }]
+
+[[injection]]
+id = "list"
+hook = "mods"
+hook_version = 1
+kind = "HEAD"
+helper = "list.rs"
+bindings = [{ name = "mods", ty = "&mut Vec<crate::game::native_hooks::NativeMod>", value = "&mut *mods" }]
+
+[[injection]]
+id = "settings"
+hook = "settings"
+hook_version = 1
+kind = "HEAD"
+helper = "settings.rs"
+bindings = [
+  { name = "game", ty = "&mut crate::game::Game<'_>", value = "&mut *self" },
+  { name = "mod_id", ty = "&str", value = "mod_id" },
+  { name = "buttons", ty = "&mut Vec<String>", value = "&mut *buttons" },
+]
+
+[[injection]]
+id = "settings_click"
+hook = "settings_click"
+hook_version = 1
+kind = "HEAD"
+helper = "settings_click.rs"
+bindings = [
+  { name = "game", ty = "&mut crate::game::Game<'_>", value = "&mut *self" },
+  { name = "mod_id", ty = "&str", value = "mod_id" },
+  { name = "button", ty = "usize", value = "button" },
+]
+
+[[injection]]
+id = "world_drawn"
+hook = "world_drawn"
+hook_version = 1
+kind = "HEAD"
+helper = "world_drawn.rs"
+bindings = [{ name = "world", ty = "&mut WorldDrawn<'_>", value = "&mut *world" }]
+
+[[injection]]
+id = "render_needs"
+hook = "render_needs"
+hook_version = 1
+kind = "HEAD"
+helper = "render_needs.rs"
+bindings = [{ name = "needs", ty = "&mut RenderNeeds", value = "&mut *needs" }]
+
+# ---- private client functions (pinned) -------------------------------------
+
+# Hurt packets: the damage event is the canonical client-visible hit.
+[[injection]]
+id = "hurt"
+kind = "HEAD"
+target = "horizon_client::game::remote::Game<'_>::handle_packet"
+helper = "hurt.rs"
+bindings = [{ name = "packet", ty = "&C", value = "&packet" }]
+
+# Entity ids added or removed: their cooldowns are never inherited.
+[[injection]]
+id = "spawned"
+kind = "HEAD"
+target = "horizon_client::game::remote::Game<'_>::spawn_entity"
+helper = "entity_changed.rs"
+bindings = [{ name = "id", ty = "i32", value = "id" }]
+
+[[injection]]
+id = "removed"
+kind = "HEAD"
+target = "horizon_client::game::remote::Game<'_>::remove_entity"
+helper = "entity_changed.rs"
+bindings = [{ name = "id", ty = "i32", value = "id" }]
+
+# Leaving a server or entering a dimension starts a new session.
+[[injection]]
+id = "left"
+kind = "HEAD"
+target = "horizon_client::game::remote::Game<'_>::leave_server"
+helper = "session.rs"
+bindings = []
+
+[[injection]]
+id = "dimension"
+kind = "HEAD"
+target = "horizon_client::game::remote::Game<'_>::enter_remote_dimension"
+helper = "session.rs"
+bindings = []
+
+# The ambient block pass: amethyst, ore and soul sources.
+[[injection]]
+id = "ambient"
+kind = "HEAD"
+target = "horizon_client::animate_tick::block_animate_tick"
+helper = "ambient.rs"
+bindings = [
+  { name = "ctx", ty = "&AnimateContext<'_>", value = "ctx" },
+  { name = "state", ty = "BlockStateId", value = "state" },
+  { name = "pos", ty = "[i32; 3]", value = "pos" },
+]
+
+# Slime landings on the client: the mod's blobs replace the item_slime crumbs.
+[[injection]]
+id = "slime"
+kind = "HEAD"
+cancellable = true
+target = "horizon_client::mobs::cube::client_tick"
+helper = "slime.rs"
+bindings = [{ name = "m", ty = "&mut Mob", value = "&mut *m" }]
