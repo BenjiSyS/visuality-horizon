@@ -21,9 +21,9 @@ source = "https://github.com/BenjiSyS/visuality-horizon"
 icon = "icons/visuality_horizon.png"
 
 [[versions]]
-version = "1.0.0"
+version = "1.0.1"
 published = "2026-11-02"
 game = "26.3"
-file = "visuality_horizon-1.0.0.hnmod"
-sha256 = "a0fbf91a5b4d3aeb52e42fdd59a4d23d359dfe7074dbdea6a68af9dcc6bcc47b"
-changelog = "First release, for Horizon Nightly 2026-11-01 (c9d474d)."
+file = "visuality_horizon-1.0.1.hnmod"
+sha256 = "98723364438606ee437618a6eaf480566e454f328b57bd023636741b8c96e82f"
+changelog = "First release, for Horizon Nightly 2026-11-01 (c9d474d). 1.0.1: entity pass skips entities out of reach (client tick 20-31 us instead of 71-157 us); package entries stored, so the file is byte-identical whatever Python builds it."

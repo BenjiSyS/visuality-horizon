@@ -56,7 +56,7 @@ jobs:
         shell: bash
         run: |
           python tools/package.py
-          python -c "import hashlib;h=hashlib.sha256(open('dist/visuality_horizon-1.0.1.hnmod','rb').read()).hexdigest();print(h);assert h=='a0fbf91a5b4d3aeb52e42fdd59a4d23d359dfe7074dbdea6a68af9dcc6bcc47b'"
+          python -c "import hashlib;h=hashlib.sha256(open('dist/visuality_horizon-1.0.1.hnmod','rb').read()).hexdigest();print(h);assert h=='98723364438606ee437618a6eaf480566e454f328b57bd023636741b8c96e82f'"
 
   native-check:
     strategy:
