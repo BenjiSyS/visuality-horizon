@@ -26,15 +26,13 @@ machine's noise is larger than that. That would need longer captures and a quiet
 
 | Stage | Measured |
 |---|---|
-| Client tick (emitters, entity pass, water sampling, pool step) | 71 to 157 µs with 8 to 20 particles live, about 200 entities loaded |
+| Client tick (emitters, entity pass, water sampling, pool step) | 20 to 31 µs after the distance cut-off (`60a1a9b`); 71 to 157 µs before it, with about 200 entities loaded |
 | Frame extraction (interpolated draw list) | 3 to 15 µs |
 | Draw encoding on the CPU (sort, vertices, upload, one draw call) | 104 to 194 µs |
 | GPU memory owned | atlas 256 KB + vertices 96 KB + indices 12 KB + uniforms |
 | Draw calls | 1 per frame while particles are live, 0 otherwise |
 
-The tick figure is above the brief's goal of 0.10 ms at the median, which is noted as open work. The
-largest part is the entity pass over all loaded mobs. A first step would be to cut it off early by
-distance before copying entity fields.
+The tick was above the brief's goal of 0.10 ms at first. Skipping entities beyond the emission distance plus 3 blocks, before copying anything, brought it to 20 to 31 µs. That is measured after 1.0.0 and goes into the next release.
 
 ## Limits
 

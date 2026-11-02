@@ -49,7 +49,7 @@ Short-lived effects were captured with `/tick rate 2` to `5`, because a screensh
 | AME-01 | Full amethyst cluster in the fixture | 96 amethyst sparkles counted in one session; the large bud next to it is not a source (unit test AME-02) | counters |
 | BENCH-MIX | ABBA on/off, 3 pairs of 20 s | No regression measurable; noise about 9% (PERFORMANCE.md) | `bench/BENCH-MIX-*.json` |
 | Hurt signal | `DamageEvent` canonical | Hurts counted; damage without an attacker (sun fire, drowning) gives no debris | counters |
-| Performance snapshot | ore wall with 8 to 12 live particles | tick 71 to 113 µs, frame 5 to 15 µs, draw encode 104 to 183 µs (CPU) | settings counters |
+| Performance snapshot | ore wall with 8 to 12 live particles | before the distance cut-off: tick 71 to 113 µs; after it (`60a1a9b`): tick 20 to 31 µs; frame 5 to 15 µs, draw encode 104 to 183 µs (CPU) | settings counters |
 
 ## Findings fixed during testing
 
@@ -59,6 +59,6 @@ Short-lived effects were captured with `/tick rate 2` to `5`, because a screensh
 
 ## Open (not yet run or not qualified)
 
-- **GPU out of memory:** the first session crashed with `wgpu error: Out of Memory` in Horizon's terrain upload (`Flat::add`). That session had render distance 128 on the UHD 620. The mod's own GPU allocation is about 370 KB. The same scene has not yet been run on an unmodded build, so the mod is not proven innocent.
+- **GPU out of memory, resolved as a baseline issue:** the first modded session crashed with `wgpu error: Out of Memory` at render distance 128 on the UHD 620. The same world and settings on the **unmodded** official Nightly (`nightly-2026-11-01-c9d474d`, instance `visuality-baseline`) crashed with the same error after about 4.5 minutes of teleporting and turning (`evidence/oom_baseline_unmodded_rd128.log`, account and paths redacted). It is Horizon's own memory limit on this GPU, not the mod's. Testing continued at render distance 12.
 - HIT-01/02 visual (skeleton, stray), the cold and warm feather palettes on screen, SLM-04 toggle-off, SOUL on screen (16 soul wisps counted), WAT-02..07, LIFE-01..10 in game, NET-01..05 (LAN, dedicated server, a second client), benchmarks (BENCH-*), and long runs.
 - Linux x86_64 and macOS arm64: not built or run here. Intel macOS: the launcher ships no toolchain for it. Dedicated servers: native mods are not built there yet (Horizon docs), and the mod is client-only anyway.

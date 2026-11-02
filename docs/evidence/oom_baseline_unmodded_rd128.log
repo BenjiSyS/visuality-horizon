@@ -1,0 +1,74 @@
+[17:59:01] [Render thread/INFO]: Horizon Nightly 2026-11-01 · c9d474d
+[17:59:37] [unnamed/INFO]: Horizon: block sprites: 1291 layers at 64 px (largest 64 px, budget 256 MiB)
+[17:59:51] [Render thread/INFO]: load core tables: 50.44s
+[17:59:51] [Render thread/INFO]: load pack tables: 50.49s
+[17:59:56] [World data preload/INFO]: Horizon: worldgen data loaded in 4.8586495s
+[18:00:12] [unnamed/INFO]: load items: 71.55s
+[18:00:36] [Render thread/INFO]: Horizon: resources loaded in 95.9s; 35723 block states, 1658 items, 67 biomes; 7 worker threads
+[18:00:37] [Render thread/INFO]: Horizon: audio output Headphones (联想thinkplus-GM2 pro) (48000 Hz, 2 channels, f32)
+[18:00:38] [Render thread/INFO]: Horizon: control socket C:\Users\USER\AppData\Roaming\horizon-launcher\game-control.json
+[18:00:39] [Render thread/INFO]: Horizon renderer: Intel(R) UHD Graphics 620 (Vulkan, IntegratedGpu)
+[18:00:39] [Render thread/INFO]: Horizon renderer: requesting the device (driver Intel Corporation Intel driver) with features [TEXTURE_FORMAT_16BIT_NORM | TEXTURE_ADAPTER_SPECIFIC_FORMAT_FEATURES | TIMESTAMP_QUERY_INSIDE_ENCODERS | MAPPABLE_PRIMARY_BUFFERS | VERTEX_WRITABLE_STORAGE | CLEAR_TEXTURE | TEXTURE_ATOMIC | SHADER_EARLY_DEPTH_TEST | SUBGROUP | TIMESTAMP_QUERY | INDIRECT_FIRST_INSTANCE | RG11B10UFLOAT_RENDERABLE | FLOAT32_BLENDABLE] and the adapter's limits (buffers up to 4385662976 bytes, storage bindings up to 2147483644 bytes, 2048 texture layers)
+[18:00:39] [Render thread/INFO]: Horizon renderer: device ready; configuring the surface (2560x1440 Bgra8Unorm, Fifo)
+[18:00:39] [Render thread/INFO]: Horizon renderer: HDR output not offered by this display
+[18:00:39] [Render thread/INFO]: Horizon renderer: creating the pipelines
+[18:00:44] [Render thread/INFO]: Horizon renderer: pipelines ready (multi-draw on, occlusion culling on, GPU timer on)
+[18:00:44] [unnamed/INFO]: Horizon: live features ready in 123.3186ms
+[18:00:56] [World data preload/INFO]: Horizon: world data preloaded for the launch's world in 64785 ms
+[18:00:56] [Render thread/INFO]: Horizon renderer: acquiring the first frame
+[18:00:56] [Render thread/INFO]: Horizon renderer: submitting the first frame
+[18:00:56] [Render thread/INFO]: Horizon renderer: presenting the first frame
+[18:00:56] [Render thread/INFO]: Horizon: first frame after 18237 ms
+[18:00:57] [Server thread/INFO]: PLAYER[/127.0.0.1:0] logged in with entity id 2 at (-29.0, 64.0, 23.0)
+[18:00:57] [Server thread/INFO]: System chat: PLAYER joined the game
+[18:05:20] [Render thread/ERROR]: Handling wgpu errors as fatal by default
+[18:05:29] [Render thread/ERROR]: Horizon crashed: panicked at C:\Users\runneradmin\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\wgpu-30.0.1\src\backend\wgpu_core.rs:1619:18:
+wgpu error: Out of Memory
+
+	at <unknown>
+	at <unknown>
+	at <unknown>
+	at <unknown>
+	at <unknown>
+	at <unknown>
+	at <unknown>
+	at <unknown>
+	at hid_write
+	at <unknown>
+	at hid_write
+	at <unknown>
+	at <unknown>
+	at <unknown>
+	at <unknown>
+	at <unknown>
+	at <unknown>
+	at <unknown>
+	at <unknown>
+	at <unknown>
+	at <unknown>
+	at <unknown>
+	at <unknown>
+	at <unknown>
+	at <unknown>
+	at CallWindowProcW
+	at CallWindowProcW
+	at wglSwapLayerBuffers
+	at CallWindowProcW
+	at GetFocus
+	at GetWindowDpiAwarenessContext
+	at KiUserCallbackDispatcher
+	at NtUserDispatchMessage
+	at IsWindowUnicode
+	at <unknown>
+	at <unknown>
+	at <unknown>
+	at <unknown>
+	at <unknown>
+	at <unknown>
+	at <unknown>
+	at <unknown>
+	at hid_write
+	at BaseThreadInitThunk
+	at RtlUserThreadStart
+[18:07:38] [Server thread/INFO]: PLAYER lost connection: Disconnected
+[18:07:38] [Server thread/INFO]: System chat: PLAYER left the game
