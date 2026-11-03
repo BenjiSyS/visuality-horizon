@@ -41,7 +41,7 @@ jobs:
         shell: bash
 
   release-reproducible:
-    # The released v1.0.1 file must come out byte for byte from its tagged
+    # The released v1.0.2 file must come out byte for byte from its tagged
     # sources on every system.
     strategy:
       fail-fast: false
@@ -51,12 +51,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: v1.0.1
-      - name: Rebuild visuality_horizon-1.0.1.hnmod and compare with the release
+          ref: v1.0.2
+      - name: Rebuild visuality_horizon-1.0.2.hnmod and compare with the release
         shell: bash
         run: |
           python tools/package.py
-          python -c "import hashlib;h=hashlib.sha256(open('dist/visuality_horizon-1.0.1.hnmod','rb').read()).hexdigest();print(h);assert h=='98723364438606ee437618a6eaf480566e454f328b57bd023636741b8c96e82f'"
+          python -c "import hashlib;h=hashlib.sha256(open('dist/visuality_horizon-1.0.2.hnmod','rb').read()).hexdigest();print(h);assert h=='b764f15a062e44b27c55f478b2d02e163bfb01c3d8e222fcd6d83bcc66f19a0d'"
 
   native-check:
     strategy:
