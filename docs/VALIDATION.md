@@ -21,12 +21,13 @@ Every row says what was actually run, where, and with what result. "Not run" row
 |---|---|
 | `cargo fmt --all --check` | pass |
 | `cargo clippy --workspace --all-targets -- -D warnings` (with the wgpu renderer) | pass |
-| `cargo test` | 53 passed: config (CFG-01..10), pool limits (LIM-01..03), every family's rules and negative controls, lifecycle (LIFE-01..06), assets, settings menu |
+| `cargo test` | 54 passed (1.0.2 adds: the generated `atlas_data.rs` equals `data/atlas.png` and `data/atlas.json` byte for byte): config (CFG-01..10), pool limits (LIM-01..03), every family's rules and negative controls, lifecycle (LIFE-01..06), assets, settings menu |
 | `python tools/pack_atlas.py` | 69 frames checked (size, RGBA, not empty, no pixel on the cell border, hash matches the render record). Caught two real clipping bugs (medium slime stretch frame, soul base), both fixed in Blender and re-rendered |
-| `python tools/package.py` | two packs byte-identical, 32 entries, registry path rules satisfied |
+| `python tools/package.py` | two packs byte-identical. 1.0.2: 29 entries, only `horizon-native.json` plus `.rs` and `.toml` files under `mixins/visuality_horizon/`, SHA-256 `b764f15a062e44b27c55f478b2d02e163bfb01c3d8e222fcd6d83bcc66f19a0d` |
 | Real build: `horizon-launcher native-build mixins/visuality_horizon --instance visuality-test --trust-native-code` | pass. First full build 37 min 44 s, later incremental builds 15 to 21 min, 0 warnings after the visibility fix |
 
 | Player route: the released `.hnmod` unpacked into a clean folder, then `native-build` | pass, 14 min 31 s (incremental; the launcher built horizon-mixins `a2af5c0` itself as the bundle names it) |
+| Player route, 1.0.2: the release archive unpacked into a clean folder, then `native-build --instance visuality-test --trust-native-code` | pass, 35 min 44 s (first build), 0 warnings. Not yet run in game: the launcher had no signed-in account on 2026-11-03 |
 | Registry checker: `cargo horizon-mod check visuality_horizon-1.0.0.hnmod` (built from the pinned source) | pass: native-1/c9d474d/a2af5c0, 70145 bytes, SHA-256 `a0fbf91a5b4d3aeb52e42fdd59a4d23d359dfe7074dbdea6a68af9dcc6bcc47b`, unsigned |
 
 ## In-game checks (natural events, single player, Windows, UHD 620)

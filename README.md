@@ -23,7 +23,7 @@ Not made or endorsed by Visuality's author, Mojang, Microsoft or the Horizon pro
 ## Install
 
 1. In the Horizon launcher, open **Mods**, pick the instance, and install `visuality_horizon`.
-   You can also use `horizon-launcher native-build visuality_horizon-1.0.0.hnmod --trust-native-code`.
+   You can also use `horizon-launcher native-build visuality_horizon-1.0.2.hnmod --trust-native-code`.
 2. Confirm the native-code warning and build. The first native build downloads Rust and compiles the
    whole game, which can take 20 to 30 minutes. Later builds are faster.
 3. Play. Settings are in **Options > Mods > Visuality**.
