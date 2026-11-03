@@ -6,9 +6,10 @@
 
 use serde::Deserialize;
 
-pub const ATLAS_PNG: &[u8] = include_bytes!(concat!(env!("CARGO_MANIFEST_DIR"), "/data/atlas.png"));
-pub const ATLAS_JSON: &[u8] =
-    include_bytes!(concat!(env!("CARGO_MANIFEST_DIR"), "/data/atlas.json"));
+/// The packed atlas and its manifest, compiled in from `atlas_data.rs`
+/// (generated from `data/` by tools/atlas_rs.py).
+pub const ATLAS_PNG: &[u8] = crate::atlas_data::ATLAS_PNG;
+pub const ATLAS_JSON: &[u8] = crate::atlas_data::ATLAS_JSON.as_bytes();
 
 pub const MAX_ATLAS_SIDE: u32 = 1024;
 pub const MAX_FRAMES: usize = 512;
@@ -370,6 +371,15 @@ mod tests {
         // Past the end clamps to the last frame instead of wrapping.
         assert_eq!(anim.frame(3.0).uv[0], 0.25);
         assert_eq!(anim.frame(f32::NAN).uv[0], 0.0);
+    }
+
+    #[test]
+    fn generated_atlas_is_the_packed_files_byte_for_byte() {
+        let dir = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("data");
+        let png = std::fs::read(dir.join("atlas.png")).expect("data/atlas.png in the source tree");
+        let json = std::fs::read_to_string(dir.join("atlas.json")).expect("data/atlas.json");
+        assert_eq!(ATLAS_PNG, &png[..], "rerun tools/atlas_rs.py");
+        assert_eq!(ATLAS_JSON, json.as_bytes(), "rerun tools/atlas_rs.py");
     }
 
     #[test]

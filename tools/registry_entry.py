@@ -60,7 +60,7 @@ published = "{a.published}"
 game = "{m["game"]}"
 file = "{listing["file"]}"
 sha256 = "{listing["sha256"]}"
-changelog = "First release, for Horizon Nightly 2026-11-01 (c9d474d). 1.0.1: entity pass skips entities out of reach (client tick 20-31 us instead of 71-157 us); package entries stored, so the file is byte-identical whatever Python builds it."
+changelog = "First release, for Horizon Nightly 2026-11-01 (c9d474d). 1.0.1: entity pass skips entities out of reach (client tick 20-31 us instead of 71-157 us); package entries stored, so the file is byte-identical whatever Python builds it. 1.0.2: atlas and notices carried as Rust source, so the bundle holds only .rs and .toml files."
 '''
     out = ROOT / "dist" / "registry" / "mods" / f"{m['id']}.toml"
     out.parent.mkdir(parents=True, exist_ok=True)

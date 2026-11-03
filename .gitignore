@@ -3,3 +3,6 @@
 __pycache__/
 *.pyc
 *.blend1
+/visuality-tools/
+/visuality-upstream/
+/visuality-pkgtest/

@@ -30,13 +30,10 @@ def allowlist():
     for p in sorted(BUNDLE.iterdir()):
         if p.is_file() and p.suffix in (".rs", ".toml"):
             files.append(p)
-    for name in ("LICENSE", "NOTICE"):
-        files.append(BUNDLE / name)
     engine = BUNDLE / "engine"
     files.append(engine / "Cargo.toml")
     files.extend(sorted((engine / "src").rglob("*.rs")))
-    files.append(engine / "data" / "atlas.png")
-    files.append(engine / "data" / "atlas.json")
+    # The atlas ships as src/atlas_data.rs (tools/atlas_rs.py), not data/.
     for f in files:
         if not f.is_file() or f.is_symlink():
             raise SystemExit(f"package: missing or not a regular file: {f}")
@@ -58,7 +55,10 @@ def text(rest):
 
 
 def allowed(rest):
-    return rest.endswith(".rs") or rest.endswith(".toml") or in_data(rest) or text(rest)
+    # The registry's check runs Horizon at the revision it pins (6f8c7a0 as of
+    # 2026-11-03), whose native bundles take only .rs and .toml files. Newer
+    # Horizon also takes data/ and licence files; keep to the strict rule.
+    return rest.endswith(".rs") or rest.endswith(".toml")
 
 
 def manifest():

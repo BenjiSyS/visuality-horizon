@@ -114,6 +114,8 @@ def main():
     with open(os.path.join(out, "atlas.json"), "w", encoding="utf-8", newline="\n") as f:
         json.dump(manifest, f, indent=1)
         f.write("\n")
+    import subprocess
+    subprocess.run([sys.executable, "-I", os.path.join(os.path.dirname(os.path.abspath(__file__)), "atlas_rs.py")], check=True)
     print(f"atlas {ATLAS_W}x{side}, {sum(len(a['frames']) for a in animations)} frames, {os.path.getsize(png_path)} bytes")
 
 
